@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{A743CF64-FE1E-44EB-BC13-70B0837BAB81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EffectiveMobile.AdPlatforms.Api", "Src\EffectiveMobile.AdPlatforms.Api\EffectiveMobile.AdPlatforms.Api.csproj", "{BDF66E54-3717-415D-85D3-1EFF8969F00C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1A1699B9-E753-4767-B4CE-E4D3A4962D70}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BDF66E54-3717-415D-85D3-1EFF8969F00C} = {A743CF64-FE1E-44EB-BC13-70B0837BAB81}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BDF66E54-3717-415D-85D3-1EFF8969F00C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDF66E54-3717-415D-85D3-1EFF8969F00C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDF66E54-3717-415D-85D3-1EFF8969F00C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDF66E54-3717-415D-85D3-1EFF8969F00C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

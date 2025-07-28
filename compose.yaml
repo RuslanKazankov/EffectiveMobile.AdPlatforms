@@ -1,0 +1,7 @@
+﻿services:
+  effectivemobile.adplatforms.api:
+    image: effectivemobile.adplatforms.api
+    build:
+      context: .
+      dockerfile: Src/EffectiveMobile.AdPlatforms.Api/Dockerfile
+
