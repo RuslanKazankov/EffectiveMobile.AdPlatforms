@@ -1,3 +1,6 @@
+using EffectiveMobile.AdPlatforms.Domain.Common;
+using EffectiveMobile.AdPlatforms.Infrastructure.Common;
+
 namespace EffectiveMobile.AdPlatforms.Api;
 
 public sealed class Startup
@@ -5,9 +8,11 @@ public sealed class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddOpenApi();
+        services.AddSwaggerGen();
         services.AddControllers();
 
-        services.AddSwaggerGen();
+        services.AddDomainServices();
+        services.AddInfrastructureServices();
     }
 
     public void Configure(IApplicationBuilder app, IHostEnvironment env)
