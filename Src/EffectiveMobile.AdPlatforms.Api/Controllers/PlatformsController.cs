@@ -15,17 +15,17 @@ public sealed class PlatformsController : ControllerBase
     }
     
     [HttpPost("upload")]
-    public async Task<IActionResult> Upload(IFormFile locations)
+    public async Task<IActionResult> Upload(IFormFile locations, CancellationToken ct)
     {
-        var result = await _platformsService.UpdateLocations(locations.OpenReadStream());
+        var result = await _platformsService.UpdateLocations(locations.OpenReadStream(), ct);
         
         return result ? Ok() : BadRequest();
     }
 
     [HttpGet("search")]
-    public async Task<IActionResult> Search([FromQuery] string location)
+    public async Task<IActionResult> Search([FromQuery] string location, CancellationToken ct)
     {
-        var result = await _platformsService.SearchPlatforms(location);
+        var result = await _platformsService.SearchPlatforms(location, ct);
         return Ok(result);
     }
 }

@@ -12,9 +12,9 @@ public sealed class PlatformsService : IPlatformsService
         _platformsRepository = platformsRepository;
     }
     
-    public Task<bool> UpdateLocations(Stream locationsFile)
+    public Task<bool> UpdateLocations(Stream locationsFile, CancellationToken ct)
     {
-        return Task.Run(() =>
+        return Task.Run(bool () =>
         {
             var streamReader = new StreamReader(locationsFile);
             _platformsRepository.ClearContext();
@@ -22,6 +22,10 @@ public sealed class PlatformsService : IPlatformsService
             var line = streamReader.ReadLine();
             while (line != null)
             {
+                if (ct.IsCancellationRequested)
+                {
+                    return false;
+                }
                 var splitLine = line.Split(':');
                 var platform = splitLine[0];
                 var locations = splitLine[1].Split(',');
@@ -31,13 +35,13 @@ public sealed class PlatformsService : IPlatformsService
                 line = streamReader.ReadLine();
             }
 
-            return Task.FromResult(true);
-        });
+            return true;
+        }, ct);
     }
 
-    public Task<IReadOnlyList<string>> SearchPlatforms(string location)
+    public Task<IReadOnlyList<string>> SearchPlatforms(string location,  CancellationToken ct)
     {
-        return Task.Run(() =>
+        return Task.Run<IReadOnlyList<string>>(() =>
         {
             HashSet<string> result = [];
         
@@ -45,13 +49,17 @@ public sealed class PlatformsService : IPlatformsService
             var sBuilder = new StringBuilder();
             for (int i = 1; i < splitLocation.Length; i++)
             {
+                if (ct.IsCancellationRequested)
+                {
+                    return [];
+                }
                 sBuilder.Append('/');
                 sBuilder.Append(splitLocation[i]);
                 var platforms = _platformsRepository.GetPlatforms(sBuilder.ToString());
                 result.UnionWith(platforms);
             }
         
-            return Task.FromResult<IReadOnlyList<string>>(result.ToList());
-        });
+            return result.ToList();
+        }, ct);
     }
 }
