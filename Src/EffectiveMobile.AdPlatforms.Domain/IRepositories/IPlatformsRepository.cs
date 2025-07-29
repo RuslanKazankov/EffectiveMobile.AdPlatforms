@@ -2,7 +2,7 @@ namespace EffectiveMobile.AdPlatforms.Domain.IRepositories;
 
 public interface IPlatformsRepository
 {
-    void ClearContext();
+    void SaveChanges();
     void AddPlatform(string platform, string[] locations);
     string[] GetPlatforms(string location);
 }

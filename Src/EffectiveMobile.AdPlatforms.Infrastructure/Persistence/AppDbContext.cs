@@ -4,5 +4,5 @@ namespace EffectiveMobile.AdPlatforms.Infrastructure.Persistence;
 
 public sealed class AppDbContext
 {
-    public ConcurrentDictionary<string, HashSet<string>> LocationPlatforms { get; } = [];
+    public Dictionary<string, HashSet<string>> LocationPlatforms { get; set; } = [];
 }

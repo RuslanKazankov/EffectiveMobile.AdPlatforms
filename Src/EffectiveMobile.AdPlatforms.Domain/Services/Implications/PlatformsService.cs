@@ -17,8 +17,7 @@ public sealed class PlatformsService : IPlatformsService
         return Task.Run(bool () =>
         {
             var streamReader = new StreamReader(locationsFile);
-            _platformsRepository.ClearContext();
-
+            
             var line = streamReader.ReadLine();
             while (line != null)
             {
@@ -34,7 +33,7 @@ public sealed class PlatformsService : IPlatformsService
 
                 line = streamReader.ReadLine();
             }
-
+            _platformsRepository.SaveChanges();
             return true;
         }, ct);
     }

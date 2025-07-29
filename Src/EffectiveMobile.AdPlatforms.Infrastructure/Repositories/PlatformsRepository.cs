@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using EffectiveMobile.AdPlatforms.Domain.IRepositories;
 using EffectiveMobile.AdPlatforms.Infrastructure.Persistence;
 
@@ -6,23 +7,25 @@ namespace EffectiveMobile.AdPlatforms.Infrastructure.Repositories;
 public sealed class PlatformsRepository : IPlatformsRepository
 {
     private AppDbContext _db;
+    private Dictionary<string, HashSet<string>> _scopeLocationPlatforms = [];
 
     public PlatformsRepository(AppDbContext db)
     {
         _db = db;
     }
     
-    public void ClearContext()
+    public void SaveChanges()
     {
-        _db.LocationPlatforms.Clear();
+        _db.LocationPlatforms = _scopeLocationPlatforms;
+        _scopeLocationPlatforms = new Dictionary<string, HashSet<string>>();
     }
 
     public void AddPlatform(string platform, string[] locations)
     {
         foreach (var location in locations)
         {
-            _db.LocationPlatforms.TryAdd(location, []);
-            _db.LocationPlatforms[location].Add(platform);
+            _scopeLocationPlatforms.TryAdd(location, []);
+            _scopeLocationPlatforms[location].Add(platform);
         }
     }
 
