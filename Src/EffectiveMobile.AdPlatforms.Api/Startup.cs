@@ -5,17 +5,21 @@ public sealed class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddOpenApi();
+        services.AddControllers();
     }
 
     public void Configure(IApplicationBuilder app, IHostEnvironment env)
     {
-        if (env.IsDevelopment())
+        app.UseRouting();
+
+        app.UseEndpoints(builder =>
         {
-            app.UseEndpoints(builder =>
+            if (env.IsDevelopment())
             {
                 builder.MapOpenApi();
-            });
-        }
+            }
+            builder.MapControllers();
+        });
         
         app.UseHttpsRedirection();
     }
