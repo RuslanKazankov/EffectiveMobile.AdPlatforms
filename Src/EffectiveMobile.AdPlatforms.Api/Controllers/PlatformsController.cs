@@ -7,7 +7,7 @@ namespace EffectiveMobile.AdPlatforms.Api.Controllers;
 public sealed class PlatformsController : ControllerBase
 {
     [HttpPost("upload")]
-    public IActionResult Upload([FromForm] IFormFile locations)
+    public IActionResult Upload(IFormFile locations)
     {
         return StatusCode(StatusCodes.Status501NotImplemented);
     }
