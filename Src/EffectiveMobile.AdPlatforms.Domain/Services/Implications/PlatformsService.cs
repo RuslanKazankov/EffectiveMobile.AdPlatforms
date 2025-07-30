@@ -35,9 +35,15 @@ public sealed class PlatformsService : IPlatformsService
                 
                 var splitLine = line.Split(':');
                 var platform = splitLine[0];
+
+                if (string.IsNullOrWhiteSpace(platform))
+                {
+                    return new Result(Errors.MissingPlatformParameter);
+                }
+                
                 var locations = splitLine[1].Split(',');
                 
-                if (!locations.All(x => x.StartsWith('/')))
+                if (!locations.All(x => x.StartsWith('/') && x.Length > 1))
                 {
                     return new Result(Errors.InvalidFileFormatLocation(lineNumber));
                 }
