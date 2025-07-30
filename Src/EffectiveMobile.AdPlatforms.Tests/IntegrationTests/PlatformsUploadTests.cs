@@ -159,4 +159,17 @@ public class PlatformsUploadTests : IClassFixture<WebApplicationFactory<Program>
         // Assert
         Assert.False(response.IsSuccessStatusCode);
     }
+    
+    [Fact]
+    public async Task Upload_MissingLocationsParameterFailureTest()
+    {
+        // Arrange
+        var client = _factory.CreateClient();
+        
+        // Act
+        var response = await client.PostAsync(RequestUri, new StringContent(string.Empty));
+        
+        // Assert
+        Assert.False(response.IsSuccessStatusCode);
+    }
 }

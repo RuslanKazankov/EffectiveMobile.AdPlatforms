@@ -51,15 +51,6 @@ public class PlatformsSearchTests : IClassFixture<WebApplicationFactory<Program>
     {
         // Arrange
         var client = _factory.CreateClient();
-        var content = string.Empty;
-        const string filename = "test.txt";
-        var fileBytes = System.Text.Encoding.UTF8.GetBytes(content);
-        var byteContent = new ByteArrayContent(fileBytes);
-        
-        var form = new MultipartFormDataContent();
-        form.Add(byteContent, UploadFileParameter, filename);
-        
-        await client.PostAsync(UploadRequestUri, form);
         
         // Act
         var response = await client.GetAsync($"{SearchRequestUri}?location=/ru/msk");
@@ -93,5 +84,18 @@ public class PlatformsSearchTests : IClassFixture<WebApplicationFactory<Program>
         Assert.NotNull(platforms);
         Assert.DoesNotContain("Яндекс.Директ", platforms);
         Assert.Empty(platforms);
+    }
+    
+    [Fact]
+    public async Task Search_MissingLocationParameterFailureTest()
+    {
+        // Arrange
+        var client = _factory.CreateClient();
+        
+        // Act
+        var response = await client.GetAsync($"{SearchRequestUri}");
+        
+        // Assert
+        Assert.False(response.IsSuccessStatusCode);
     }
 }

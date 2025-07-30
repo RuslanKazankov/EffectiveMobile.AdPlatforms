@@ -5,5 +5,6 @@
     &lt;TestId&gt;xUnit::54A694CE-03E3-4F7E-B0B2-3AA12FFA9ED5::net9.0::EffectiveMobile.AdPlatforms.Tests.IntegrationTests.PlatformsSearchTests.Search_SuccessTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::54A694CE-03E3-4F7E-B0B2-3AA12FFA9ED5::net9.0::EffectiveMobile.AdPlatforms.Tests.IntegrationTests.PlatformsSearchTests.Search_EmptySuccessTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::54A694CE-03E3-4F7E-B0B2-3AA12FFA9ED5::net9.0::EffectiveMobile.AdPlatforms.Tests.IntegrationTests.PlatformsSearchTests.Search_NotFoundWithoutSlashSuccessTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::54A694CE-03E3-4F7E-B0B2-3AA12FFA9ED5::net9.0::EffectiveMobile.AdPlatforms.Tests.IntegrationTests.PlatformsSearchTests.Search_MissingLocationParameterFailureTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
