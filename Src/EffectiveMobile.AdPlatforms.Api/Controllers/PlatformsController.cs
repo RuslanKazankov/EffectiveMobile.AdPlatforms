@@ -1,3 +1,4 @@
+using EffectiveMobile.AdPlatforms.Domain.Models;
 using EffectiveMobile.AdPlatforms.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,13 +20,18 @@ public sealed class PlatformsController : ControllerBase
     {
         var result = await _platformsService.UpdateLocations(locations.OpenReadStream(), ct);
         
-        return result ? Ok() : BadRequest();
+        return result.IsSuccess ? Ok(result.Response) : BadRequest(result.Error);
     }
 
     [HttpGet("search")]
     public async Task<IActionResult> Search([FromQuery] string location, CancellationToken ct)
     {
+        if (string.IsNullOrWhiteSpace(location))
+        {
+            return BadRequest(Errors.MissingLocationParameter);
+        }
+        
         var result = await _platformsService.SearchPlatforms(location, ct);
-        return Ok(result);
+        return result.IsSuccess ? Ok(result.Response) : BadRequest(result.Error);;
     }
 }

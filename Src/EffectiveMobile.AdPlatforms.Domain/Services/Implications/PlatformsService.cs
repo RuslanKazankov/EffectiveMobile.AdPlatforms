@@ -1,5 +1,6 @@
 using System.Text;
 using EffectiveMobile.AdPlatforms.Domain.IRepositories;
+using EffectiveMobile.AdPlatforms.Domain.Models;
 
 namespace EffectiveMobile.AdPlatforms.Domain.Services.Implications;
 
@@ -12,35 +13,48 @@ public sealed class PlatformsService : IPlatformsService
         _platformsRepository = platformsRepository;
     }
     
-    public Task<bool> UpdateLocations(Stream locationsFile, CancellationToken ct)
+    public Task<Result> UpdateLocations(Stream locationsFile, CancellationToken ct)
     {
-        return Task.Run(bool () =>
+        return Task.Run(Result () =>
         {
             var streamReader = new StreamReader(locationsFile);
             
             var line = streamReader.ReadLine();
+            var lineNumber = 1;
             while (line != null)
             {
                 if (ct.IsCancellationRequested)
                 {
-                    return false;
+                    return new Result(Errors.TaskCanceled);
                 }
+
+                if (line.Count(c => c == ':') != 1)
+                {
+                    return new Result(Errors.InvalidFileSplitSymbol(lineNumber));
+                }
+                
                 var splitLine = line.Split(':');
                 var platform = splitLine[0];
                 var locations = splitLine[1].Split(',');
+                
+                if (!locations.All(x => x.StartsWith('/')))
+                {
+                    return new Result(Errors.InvalidFileFormatLocation(lineNumber));
+                }
 
                 _platformsRepository.AddPlatform(platform, locations);
 
+                lineNumber++;
                 line = streamReader.ReadLine();
             }
             _platformsRepository.SaveChanges();
-            return true;
+            return new Result();
         }, ct);
     }
 
-    public Task<IReadOnlyList<string>> SearchPlatforms(string location,  CancellationToken ct)
+    public Task<Result<IReadOnlyList<string>>> SearchPlatforms(string location,  CancellationToken ct)
     {
-        return Task.Run<IReadOnlyList<string>>(() =>
+        return Task.Run(Result<IReadOnlyList<string>> () =>
         {
             HashSet<string> result = [];
         
@@ -50,15 +64,15 @@ public sealed class PlatformsService : IPlatformsService
             {
                 if (ct.IsCancellationRequested)
                 {
-                    return [];
+                    return new Result<IReadOnlyList<string>>([], Errors.TaskCanceled);
                 }
                 sBuilder.Append('/');
                 sBuilder.Append(splitLocation[i]);
                 var platforms = _platformsRepository.GetPlatforms(sBuilder.ToString());
                 result.UnionWith(platforms);
             }
-        
-            return result.ToList();
+
+            return new Result<IReadOnlyList<string>>(result.ToArray());
         }, ct);
     }
 }
