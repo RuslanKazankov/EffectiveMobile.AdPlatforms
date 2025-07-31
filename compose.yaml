@@ -1,7 +1,10 @@
 ﻿services:
   effectivemobile.adplatforms.api:
     image: effectivemobile.adplatforms.api
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
     build:
       context: .
       dockerfile: Src/EffectiveMobile.AdPlatforms.Api/Dockerfile
-
